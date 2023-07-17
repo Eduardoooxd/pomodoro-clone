@@ -1,9 +1,13 @@
 "use client";
 
-import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 import { cn, getBackgroundColorClass } from "@/lib/utils";
 import { PomodoroTypes } from "@/types/pomodoTypes";
-import React, { createContext, useContext, useState } from "react";
+import React, {
+	createContext,
+	useContext,
+	useLayoutEffect,
+	useState,
+} from "react";
 
 interface PomodoroContextType {
 	pomodoro: PomodoroTypes;
@@ -43,22 +47,19 @@ export const PomodoroProvider = ({
 
 	const backgroundColorClass = getBackgroundColorClass(pomodoro);
 
-	useIsomorphicLayoutEffect(() => {
-		//Forcing non null since Head element always exists.
-		const headElement = document.querySelector("head");
-		const existingFavicon = document.querySelector('link[rel="icon"]');
+	useLayoutEffect(() => {
+		if (typeof window !== "undefined") {
+			//Forcing non null since Head element always exists.
+			const headElement = document.querySelector("head");
+			const existingFavicon = document.querySelector('link[rel="icon"]');
 
-		// Create a new <link> element for the new favicon
-		const newFavicon = document.createElement("link");
-		newFavicon.rel = "icon";
-		newFavicon.href = `assets/favicons/${pomodoro}Icon.ico`;
+			// Create a new <link> element for the new favicon
+			const newFavicon = document.createElement("link");
+			newFavicon.rel = "icon";
+			newFavicon.href = `assets/favicons/${pomodoro}Icon.ico`;
 
-		// Replace the existing favicon with the new one
-		if (existingFavicon && headElement) {
-			headElement.removeChild(existingFavicon);
+			headElement?.appendChild(newFavicon);
 		}
-
-		headElement?.appendChild(newFavicon);
 	}, [pomodoro]);
 
 	return (
