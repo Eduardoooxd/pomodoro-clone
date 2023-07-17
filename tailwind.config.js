@@ -19,6 +19,7 @@ module.exports = {
 				work: "#f44336",
 				shortBreak: "#2196f3",
 				longBreak: "#4caf50",
+				almostTransparent: "rgba(255, 255, 255, 0.1)",
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",
 				ring: "hsl(var(--ring))",

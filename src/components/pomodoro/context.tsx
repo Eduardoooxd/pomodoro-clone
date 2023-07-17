@@ -45,7 +45,6 @@ export const PomodoroProvider = ({
 
 	useIsomorphicLayoutEffect(() => {
 		//Forcing non null since Head element always exists.
-		console.log("teste");
 		const headElement = document.querySelector("head");
 		const existingFavicon = document.querySelector('link[rel="icon"]');
 
@@ -55,9 +54,10 @@ export const PomodoroProvider = ({
 		newFavicon.href = `assets/favicons/${pomodoro}Icon.ico`;
 
 		// Replace the existing favicon with the new one
-		if (existingFavicon) {
-			headElement?.removeChild(existingFavicon);
+		if (existingFavicon && headElement) {
+			headElement.removeChild(existingFavicon);
 		}
+
 		headElement?.appendChild(newFavicon);
 	}, [pomodoro]);
 

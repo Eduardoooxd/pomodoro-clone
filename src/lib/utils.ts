@@ -19,3 +19,32 @@ export const convertSecondsToMinutes = (seconds: number): string => {
 	const paddedSeconds = String(remainingSeconds).padStart(2, "0");
 	return `${paddedMinutes}:${paddedSeconds}`;
 };
+
+export const showNotification = (
+	title: string,
+	options: NotificationOptions,
+): void => {
+	// Check if the browser supports notifications
+	if (!("Notification" in window)) {
+		return;
+	}
+
+	function createNotification() {
+		const notification = new Notification(title, options);
+
+		// Handle notification click event or other actions if needed
+	}
+
+	if (Notification.permission === "granted") {
+		createNotification();
+		return;
+	} else {
+		Notification.requestPermission().then((permission) => {
+			if (permission === "granted") {
+				createNotification();
+			} else {
+				return;
+			}
+		});
+	}
+};
